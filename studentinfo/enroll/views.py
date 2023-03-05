@@ -22,7 +22,15 @@ def add_show(request):
 
 # this function will edit data
 def update_data(request, id):
-    return render(request, "enroll/updatestudent.html", {'id':id})
+    pi = User.objects.get(pk = id)
+    fm = UserForm(request.POST, instance=pi)
+    if fm.is_valid():
+        fm.save()
+    else:
+        pi = User.objects.get(pk = id)
+        fm = UserForm(instance=pi) 
+       
+    return render(request, "enroll/updatestudent.html", {'form':fm})
 
 # this function will delete item
 def delete_data(request, id):
